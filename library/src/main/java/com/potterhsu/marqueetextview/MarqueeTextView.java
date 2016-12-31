@@ -46,6 +46,7 @@ public class MarqueeTextView extends View {
     }
 
     private void initialize() {
+        setVisibility(INVISIBLE);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
 
@@ -53,7 +54,9 @@ public class MarqueeTextView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        viewBounds.set(0, 0, getWidth(), getHeight());
+        viewBounds.set(0, 0,
+                MeasureSpec.getSize(widthMeasureSpec),
+                MeasureSpec.getSize(heightMeasureSpec));
 
         float textSize = Math.min(viewBounds.height() * 0.8f, 300);
         paint.setTextSize(textSize);
@@ -67,20 +70,29 @@ public class MarqueeTextView extends View {
     }
 
     public void start() {
-        float from = viewBounds.width();
-        float to = -1f * textBounds.width();
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                float from = viewBounds.width();
+                float to = -1f * textBounds.width();
 
-        Animation animation = new TranslateAnimation(from, to, 0, 0);
-        animation.setRepeatMode(Animation.INFINITE);
-        animation.setRepeatCount(-1);
-        animation.setInterpolator(new LinearInterpolator());
-        animation.setDuration( (long) ((from - to) * (1 / speed)) );
+//                Log.d(TAG, "start: from = " + from + ", to = " + to);
 
-        this.startAnimation(animation);
+                Animation animation = new TranslateAnimation(from, to, 0, 0);
+                animation.setRepeatMode(Animation.INFINITE);
+                animation.setRepeatCount(-1);
+                animation.setInterpolator(new LinearInterpolator());
+                animation.setDuration( (long) ((from - to) * (1 / speed)) );
+                startAnimation(animation);
+
+                setVisibility(VISIBLE);
+            }
+        });
     }
 
     public void stop() {
-        this.clearAnimation();
+        setVisibility(INVISIBLE);
+        clearAnimation();
     }
 
     public String getText() {

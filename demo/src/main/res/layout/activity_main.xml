@@ -11,8 +11,8 @@
     android:clipChildren="false"
     tools:context="com.potterhsu.marquee.demo.MainActivity">
 
-    <com.potterhsu.marqueetextview.MarqueeTextView
-        android:id="@+id/tv"
+    <FrameLayout
+        android:id="@+id/layoutMarquee"
         android:layout_width="match_parent"
         android:layout_height="300dp" />
 
@@ -20,7 +20,7 @@
         android:id="@+id/btnStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv"
+        android:layout_below="@id/layoutMarquee"
         android:text="Start"
         android:onClick="OnBtnStartClick"/>
 

@@ -1,13 +1,13 @@
 package com.potterhsu.marquee.demo;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.potterhsu.marqueetextview.MarqueeTextFragment;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Activity {
 
     private MarqueeTextFragment marqueeTextFragment;
 
@@ -20,7 +20,7 @@ public class MainActivity extends FragmentActivity {
         marqueeTextFragment.setMarqueeInfo(
                 new MarqueeTextFragment.MarqueeInfo("This is a good day, 歡迎光臨！", Color.BLUE, 0.5f)
         );
-        getSupportFragmentManager().beginTransaction()
+        getFragmentManager().beginTransaction()
                 .replace(R.id.layoutMarquee, marqueeTextFragment)
                 .commit();
     }

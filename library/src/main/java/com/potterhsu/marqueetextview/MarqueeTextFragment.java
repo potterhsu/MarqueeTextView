@@ -1,8 +1,8 @@
 package com.potterhsu.marqueetextview;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +21,9 @@ public class MarqueeTextFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_marquee_text, container, false);
         marqueeTextView = (MarqueeTextView) view.findViewById(R.id.tvMarquee);
-        marqueeTextView.setText(marqueeInfo.text);
-        marqueeTextView.setColor(marqueeInfo.color);
-        marqueeTextView.setSpeed(marqueeInfo.speed);
+        marqueeTextView.setText(marqueeInfo.getText());
+        marqueeTextView.setColor(marqueeInfo.getColor());
+        marqueeTextView.setSpeed(marqueeInfo.getSpeed());
         marqueeTextView.start();
         return view;
     }

@@ -6,10 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
 
 /**
  * Created by PoterHsu on 12/30/16.
@@ -18,14 +16,15 @@ import android.view.animation.TranslateAnimation;
 public class MarqueeTextView extends View {
 
     public static final String TAG = MarqueeTextView.class.getSimpleName();
-    private static final float DEFAULT_SPEED = 0.5f;
+    public static final float TEXT_SCALE = 0.7f;
+    public static final float TEXT_MAX_SIZE = 300;
 
     private String text = "";
-    private float speed = DEFAULT_SPEED;
 
     private Paint paint;
     private Rect viewBounds = new Rect();
     private Rect textBounds = new Rect();
+    private float textWidthFromMeasurement;
 
 
     public MarqueeTextView(Context context) {
@@ -56,41 +55,26 @@ public class MarqueeTextView extends View {
                 MeasureSpec.getSize(widthMeasureSpec),
                 MeasureSpec.getSize(heightMeasureSpec));
 
-        float textSize = Math.min(viewBounds.height() * 0.8f, 300);
+        float textSize = Math.min(viewBounds.height() * TEXT_SCALE, TEXT_MAX_SIZE);
         paint.setTextSize(textSize);
         paint.getTextBounds(this.text, 0, this.text.length(), textBounds);
 
-//        Log.d(TAG, "onMeasure: " +
-//                        "viewBounds.width() = " + viewBounds.width() + ", " +
-//                        "viewBounds.height() = " + viewBounds.height() + ", " +
-//                        "textBounds.width() = " + textBounds.width() + ", " +
-//                        "textBounds.height() = " + textBounds.height());
-    }
+        textWidthFromMeasurement = paint.measureText(this.text);
 
-    public void start() {
-        this.post(new Runnable() {
-            @Override
-            public void run() {
-                float from = viewBounds.width();
-                float to = -1f * textBounds.width();
+        /**
+         * Note:
+         *      String starts with `，` will make width measured by `getTextBounds` inaccurate,
+         *      but by `measureText` is accurate.
+         */
 
-//                Log.d(TAG, "start: from = " + from + ", to = " + to);
-
-                Animation animation = new TranslateAnimation(from, to, 0, 0);
-                animation.setRepeatMode(Animation.INFINITE);
-                animation.setRepeatCount(-1);
-                animation.setInterpolator(new LinearInterpolator());
-                animation.setDuration( (long) ((from - to) * (1 / speed)) );
-                startAnimation(animation);
-
-                setVisibility(VISIBLE);
-            }
-        });
-    }
-
-    public void stop() {
-        setVisibility(INVISIBLE);
-        clearAnimation();
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "onMeasure: " +
+                    "viewBounds.width() = " + viewBounds.width() + ", " +
+                    "viewBounds.height() = " + viewBounds.height() + ", " +
+                    "textBounds.width() = " + textBounds.width() + ", " +
+                    "textBounds.height() = " + textBounds.height() + ", " +
+                    "textWidthFromMeasurement = " + textWidthFromMeasurement);
+        }
     }
 
     public String getText() {
@@ -106,8 +90,16 @@ public class MarqueeTextView extends View {
         paint.setColor(color);
     }
 
-    public void setSpeed(float speed) {
-        this.speed = speed;
+    public Rect getViewBounds() {
+        return viewBounds;
+    }
+
+    public Rect getTextBounds() {
+        return textBounds;
+    }
+
+    public float getTextWidthFromMeasurement() {
+        return textWidthFromMeasurement;
     }
 
     @Override

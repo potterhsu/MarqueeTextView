@@ -16,9 +16,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String text = "How are you today? 你今天好嗎？ 你今天好吗？ 今日は元気ですか？ 오늘 어떠니? Quid agis hodie? Comment vas-tu aujourd'hui? Πώς είσαι σήμερα? Kuinka voit tänään? วันนี้คุณเป็นอย่างไร?";
         marqueeTextFragment = new MarqueeTextFragment();
         marqueeTextFragment.setMarqueeInfo(
-                new MarqueeTextFragment.MarqueeInfo("This is a good day, 歡迎光臨！", Color.BLUE, 0.5f)
+                new MarqueeTextFragment.MarqueeInfo(text, Color.BLUE, 0.5f)
         );
         getFragmentManager().beginTransaction()
                 .replace(R.id.layoutMarquee, marqueeTextFragment)

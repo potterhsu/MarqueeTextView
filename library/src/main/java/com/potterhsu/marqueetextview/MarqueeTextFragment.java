@@ -53,7 +53,9 @@ public class MarqueeTextFragment extends Fragment {
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 float textSize = Math.min(viewHeight * MarqueeTextView.TEXT_SCALE, MarqueeTextView.TEXT_MAX_SIZE);
                 paint.setTextSize(textSize);
-                textParts = splitByTextWidth(marqueeInfo.getText(), viewWidth, paint);
+
+                int bufferWidth = 100;
+                textParts = splitByTextWidth(marqueeInfo.getText(), viewWidth + bufferWidth, paint);
 
                 for (String textPart : textParts) {
                     Log.d(TAG, "textPart: " + textPart);

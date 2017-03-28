@@ -58,8 +58,7 @@ public class MarqueeTextFragment extends Fragment {
                 float textSize = Math.min(viewHeight * MarqueeTextView.TEXT_SCALE, MarqueeTextView.TEXT_MAX_SIZE);
                 paint.setTextSize(textSize);
 
-                int bufferWidth = 100;
-                textParts = splitByTextWidth(marqueeInfo.getText(), viewWidth + bufferWidth, paint);
+                textParts = splitByTextWidth(marqueeInfo.getText(), viewWidth, paint);
 
                 for (String textPart : textParts) {
                     Log.d(TAG, "textPart: " + textPart);
@@ -103,7 +102,7 @@ public class MarqueeTextFragment extends Fragment {
 
     public void startMarquee(final int index, final Integer initFrom) {
         final MarqueeTextView marqueeTextView = new MarqueeTextView(getActivity());
-        marqueeTextView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        marqueeTextView.setLayoutParams(new FrameLayout.LayoutParams(viewWidth + 300, viewHeight));
         marqueeTextView.setText(textParts.get(index));
         marqueeTextView.setColor(marqueeInfo.getColor());
         marqueeTextView.setVisibility(View.INVISIBLE);

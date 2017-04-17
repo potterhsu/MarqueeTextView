@@ -101,6 +101,9 @@ public class MarqueeTextFragment extends Fragment {
     }
 
     public void startMarquee(final int index, final Integer initFrom) {
+        if (marqueeInfo == null || textParts.size() == 0)
+            return;
+
         final MarqueeTextView marqueeTextView = new MarqueeTextView(getActivity());
         marqueeTextView.setLayoutParams(new FrameLayout.LayoutParams(viewWidth + 300, viewHeight));
         marqueeTextView.setText(textParts.get(index));

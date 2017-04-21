@@ -3,8 +3,10 @@ package com.potterhsu.marqueetextview;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -88,6 +90,10 @@ public class MarqueeTextView extends View {
 
     public void setColor(int color) {
         paint.setColor(color);
+    }
+
+    public void setTypeface(Typeface typeface) {
+        paint.setTypeface(typeface);
     }
 
     public Rect getViewBounds() {

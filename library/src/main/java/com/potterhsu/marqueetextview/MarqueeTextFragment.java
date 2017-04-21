@@ -1,6 +1,7 @@
 package com.potterhsu.marqueetextview;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -60,6 +62,15 @@ public class MarqueeTextFragment extends Fragment {
                     Log.d(TAG, "textPart: " + textPart);
                 }
 
+                if (marqueeInfo.isBlink()) {
+                    Animation blinkAnimation = new AlphaAnimation(1, 0);
+                    blinkAnimation.setDuration(300);
+                    blinkAnimation.setInterpolator(new LinearInterpolator());
+                    blinkAnimation.setRepeatCount(Animation.INFINITE);
+                    blinkAnimation.setRepeatMode(Animation.REVERSE);
+                    layoutRoot.startAnimation(blinkAnimation);
+                }
+
                 startMarquee();
             }
         });
@@ -104,6 +115,7 @@ public class MarqueeTextFragment extends Fragment {
         marqueeTextView.setLayoutParams(new FrameLayout.LayoutParams(viewWidth + 300, viewHeight));
         marqueeTextView.setText(textParts.get(index));
         marqueeTextView.setColor(marqueeInfo.getColor());
+        marqueeTextView.setTypeface(marqueeInfo.getTypeface());
         marqueeTextView.setVisibility(View.INVISIBLE);
         layoutRoot.addView(marqueeTextView);
 
@@ -204,39 +216,4 @@ public class MarqueeTextFragment extends Fragment {
         this.marqueeInfo = marqueeInfo;
     }
 
-    public static class MarqueeInfo {
-        private String text;
-        private int color;
-        private float speed;
-
-        public MarqueeInfo(String text, int color, float speed) {
-            this.text = text;
-            this.color = color;
-            this.speed = speed;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        public int getColor() {
-            return color;
-        }
-
-        public void setColor(int color) {
-            this.color = color;
-        }
-
-        public float getSpeed() {
-            return speed;
-        }
-
-        public void setSpeed(float speed) {
-            this.speed = speed;
-        }
-    }
 }
